@@ -1,6 +1,6 @@
 ### GetData - Course Project
 
-The purpose of the project is to demonstrate our ability to collect, clean and manipulate a complex dataset. Version 1 of the **Human Activity Recognition Using Smartphones Dataset (HAR)** was obtained from the **UCI Machine Learning Repository (UCI)** and utilized as the raw data.
+The purpose of the project is to demonstrate our ability to collect, clean and manipulate a complex dataset. The **Human Activity Recognition Using Smartphones Dataset (HAR)** was obtained from the **UCI Machine Learning Repository (UCI)** and utilized as the raw data.
 
 In addition to this Readme.md, this repository contains:  
 1. **run_analysis.R** - R script which takes the compressed UCI HAR dataset as input and outputs a tidy data table according to project guidelines (see Code Book for more details). My implementation makes use of the [plyr package](http://cran.r-project.org/web/packages/plyr/index.html) which may need to be installed. 
