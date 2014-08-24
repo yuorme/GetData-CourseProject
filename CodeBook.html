@@ -55,17 +55,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="getdata---course-project---code-book" class="section level2">
 <h2>GetData - Course Project - Code Book</h2>
-<div id="uci-har-dataset" class="section level3">
-<h3>UCI HAR Dataset</h3>
-<p>Version 1 of the <strong>Human Activity Recognition Using Smartphones Dataset (HAR)</strong> was obtained from the <strong>UCI Machine Learning Repository (UCI)</strong>. The UCI HAR dataset was submitted by a team from <a href="https://sites.google.com/site/smartlabunige/home">Smartlab</a> at the University of Genoa in Italy.</p>
-<p>The experiments were carried out with <strong>30 individuals</strong> (19-48 years old) who performed <strong>six different activities</strong>. Measurements were made using the embedded accelerometer and gyroscope on a Samsung Galaxy S II smartphone worn by the individual while performing these activities. The total dataset contained 10,299 observations. This dataset was randomly partitioned into training and test datasets containing 21 and 9 individuals, respectively.</p>
-<p>The dataset uploaded to UCI was processed in a rich variety of ways to generate <strong>561 features</strong>. Briefly, the tri-axial (x,y,z) accelerometer and gyroscope measurements were noise-filtered and then sampled in partially-overlapping, fixed-width sliding windows. Acceleration signals were seperated into <strong>Gravitational</strong> and <strong>Body Motion</strong> componenents using a low-pass filter. <strong>Jerk</strong> signals were obtained using the body linear acceleration and angular velocity derived in time. Some of these signals were further processed with fast Fourier transforms to generate a <strong>Frequency</strong> signal. Please refer to README.txt and features_info.txt from the UCI HAR Dataset and to the scientific paper [1] for more details.</p>
-<p><strong>Note</strong>: Despite the extensive processing already performed on the UCI HAR Dataset, for the purposes of this assignment, <strong>the downloaded UCI HAR zipfile will be treated as raw data</strong>. The compressed UCI HAR Dataset zip file can be obtained from the <a href="http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones">UCI Machine Learning Repository</a> (59.7 Mb)</p>
-<p>Citations:<br />1. <a href="http://link.springer.com/chapter/10.1007%2F978-3-642-35395-6_30">Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012</a></p>
-</div>
 <div id="study-design" class="section level3">
 <h3>Study Design</h3>
-<p>A brief description of the steps implemented to generate the tidy dataset specified by the assignment guidelines:</p>
+<p>The following is a brief description of <code>run_analysis.R</code> which describes the steps I’ve implemented to generate the tidy dataset specified by the assignment guidelines.</p>
+<p><strong>Note</strong>: Despite the extensive processing already performed on the UCI HAR Dataset, for the purposes of this assignment, <strong>the downloaded UCI HAR zipfile will be treated as raw data</strong>.</p>
 <div id="load-commonmetadata-files" class="section level5">
 <h5>Load Common/Metadata Files</h5>
 <ol style="list-style-type: decimal">
@@ -111,6 +104,99 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 <div id="code-book" class="section level3">
 <h3>Code Book</h3>
+<p>The tidy dataset contains 180 observations of 69 variables. A breakdown of this is as follows:<br />- <strong>Observations</strong> - 30 subjects measured for 6 different activities<br />- <strong>Variables</strong> - 3 metadata variables with 33 measurements of Mean and Standard Deviation respectively.</p>
+<div id="variable-information" class="section level4">
+<h4>Variable Information</h4>
+<div id="metadata" class="section level5">
+<h5>Metadata</h5>
+<ol style="list-style-type: decimal">
+<li>“Activity.ID” - integer index corresponding to the descriptive activity name (range: 1 to 6)<br /></li>
+<li>“Activity” - factor with 6 levels (“WALKING”, “WALKING_UPSTAIRS”, “WALKING_DOWNSTAIRS”, “SITTING”, “STANDING”, “LAYING”)<br /></li>
+<li>“Subject.ID” - integer index corresponding to the subject (range: 1 to 30)</li>
+</ol>
+</div>
+<div id="measurement-variables" class="section level5">
+<h5>Measurement Variables</h5>
+<p>See the following appendix for further details documenting the meaning of each of the following measures. All features have been normalized and are bounded between -1 and 1.</p>
+<p><strong>Abbreviations</strong><br /><strong>std</strong> - standard deviation<br /><strong>.X .Y .Z</strong> - Denotes tri-axial signals in the X, Y and Z directions.<br /><strong>Gyro</strong> - gyroscope measurements<br /><strong>Accel</strong> - accelerometer measurements<br /><strong>Mag</strong> - magnitude</p>
+<ol start="4" style="list-style-type: decimal">
+<li>“timeBodyAccel.mean.X”<br /></li>
+<li>“timeBodyAccel.mean.Y”<br /></li>
+<li>“timeBodyAccel.mean.Z”<br /></li>
+<li>“timeBodyAccel.std.X”<br /></li>
+<li>“timeBodyAccel.std.Y”<br /></li>
+<li>“timeBodyAccel.std.Z”<br /></li>
+<li>“timeGravityAccel.mean.X”<br /></li>
+<li>“timeGravityAccel.mean.Y”<br /></li>
+<li>“timeGravityAccel.mean.Z”<br /></li>
+<li>“timeGravityAccel.std.X”<br /></li>
+<li>“timeGravityAccel.std.Y”<br /></li>
+<li>“timeGravityAccel.std.Z”<br /></li>
+<li>“timeBodyAccelJerk.mean.X”<br /></li>
+<li>“timeBodyAccelJerk.mean.Y”<br /></li>
+<li>“timeBodyAccelJerk.mean.Z”<br /></li>
+<li>“timeBodyAccelJerk.std.X”<br /></li>
+<li>“timeBodyAccelJerk.std.Y”<br /></li>
+<li>“timeBodyAccelJerk.std.Z”<br /></li>
+<li>“timeBodyGyro.mean.X”<br /></li>
+<li>“timeBodyGyro.mean.Y”<br /></li>
+<li>“timeBodyGyro.mean.Z”<br /></li>
+<li>“timeBodyGyro.std.X”<br /></li>
+<li>“timeBodyGyro.std.Y”<br /></li>
+<li>“timeBodyGyro.std.Z”<br /></li>
+<li>“timeBodyGyroJerk.mean.X”<br /></li>
+<li>“timeBodyGyroJerk.mean.Y”<br /></li>
+<li>“timeBodyGyroJerk.mean.Z”<br /></li>
+<li>“timeBodyGyroJerk.std.X”<br /></li>
+<li>“timeBodyGyroJerk.std.Y”<br /></li>
+<li>“timeBodyGyroJerk.std.Z”<br /></li>
+<li>“timeBodyAccelMag.mean”<br /></li>
+<li>“timeBodyAccelMag.std”<br /></li>
+<li>“timeGravityAccelMag.mean”<br /></li>
+<li>“timeGravityAccelMag.std”<br /></li>
+<li>“timeBodyAccelJerkMag.mean”<br /></li>
+<li>“timeBodyAccelJerkMag.std”<br /></li>
+<li>“timeBodyGyroMag.mean”<br /></li>
+<li>“timeBodyGyroMag.std”<br /></li>
+<li>“timeBodyGyroJerkMag.mean”<br /></li>
+<li>“timeBodyGyroJerkMag.std”<br /></li>
+<li>“freqBodyAccel.mean.X”<br /></li>
+<li>“freqBodyAccel.mean.Y”<br /></li>
+<li>“freqBodyAccel.mean.Z”<br /></li>
+<li>“freqBodyAccel.std.X”<br /></li>
+<li>“freqBodyAccel.std.Y”<br /></li>
+<li>“freqBodyAccel.std.Z”<br /></li>
+<li>“freqBodyAccelJerk.mean.X”<br /></li>
+<li>“freqBodyAccelJerk.mean.Y”<br /></li>
+<li>“freqBodyAccelJerk.mean.Z”<br /></li>
+<li>“freqBodyAccelJerk.std.X”<br /></li>
+<li>“freqBodyAccelJerk.std.Y”<br /></li>
+<li>“freqBodyAccelJerk.std.Z”<br /></li>
+<li>“freqBodyGyro.mean.X”<br /></li>
+<li>“freqBodyGyro.mean.Y”<br /></li>
+<li>“freqBodyGyro.mean.Z”<br /></li>
+<li>“freqBodyGyro.std.X”<br /></li>
+<li>“freqBodyGyro.std.Y”<br /></li>
+<li>“freqBodyGyro.std.Z”<br /></li>
+<li>“freqBodyAccelMag.mean”<br /></li>
+<li>“freqBodyAccelMag.std”<br /></li>
+<li>“freqBodyBodyAccelJerkMag.mean”</li>
+<li>“freqBodyBodyAccelJerkMag.std”</li>
+<li>“freqBodyBodyGyroMag.mean”<br /></li>
+<li>“freqBodyBodyGyroMag.std”<br /></li>
+<li>“freqBodyBodyGyroJerkMag.mean”</li>
+<li>“freqBodyBodyGyroJerkMag.std”</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="appendix-uci-har-dataset-information" class="section level3">
+<h3>Appendix: UCI HAR Dataset Information</h3>
+<p>Version 1 of the <strong>Human Activity Recognition Using Smartphones Dataset (HAR)</strong> was obtained from the <strong>UCI Machine Learning Repository (UCI)</strong>. The UCI HAR dataset was submitted by a team from <a href="https://sites.google.com/site/smartlabunige/home">Smartlab</a> at the University of Genoa in Italy.</p>
+<p>The experiments were carried out with <strong>30 individuals</strong> (19-48 years old) who performed <strong>six different activities</strong>. Measurements were made using the embedded accelerometer and gyroscope on a Samsung Galaxy S II smartphone worn by the individual while performing these activities. The total dataset contained 10,299 observations. This dataset was randomly partitioned into training and test datasets containing 21 and 9 individuals, respectively.</p>
+<p>The dataset uploaded to UCI was processed in a rich variety of ways to generate <strong>561 features</strong>. Briefly, the tri-axial (x,y,z) accelerometer and gyroscope measurements were noise-filtered and then sampled in partially-overlapping, fixed-width sliding windows. Acceleration signals were seperated into <strong>Gravitational</strong> and <strong>Body Motion</strong> componenents using a low-pass filter. <strong>Jerk</strong> signals were obtained using the body linear acceleration and angular velocity derived in time. Some of these signals were further processed with fast Fourier transforms to generate a <strong>Frequency</strong> signal. Please refer to README.txt and features_info.txt from the UCI HAR Dataset and to the scientific paper [1] for more details.</p>
+<p>The compressed UCI HAR Dataset zip file can be obtained from the <a href="http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones">UCI Machine Learning Repository</a> (59.7 Mb)</p>
+<p>Citations:<br />1. <a href="http://link.springer.com/chapter/10.1007%2F978-3-642-35395-6_30">Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012</a></p>
 </div>
 </div>
 
