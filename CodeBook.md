@@ -1,51 +1,17 @@
 ## GetData - Course Project - Code Book
 
-
-
-### Study Design
-
-The following is a brief description of `run_analysis.R` which describes the steps I've implemented to generate the tidy dataset specified by the assignment guidelines. 
-
-**Note**: Despite the extensive processing already performed on the UCI HAR Dataset, for the purposes of this assignment, **the downloaded UCI HAR zipfile will be treated as raw data**. 
-
-##### Load Common/Metadata Files  
-1. Unzip the compressed UCI HAR archive using `unzip`  
-2. Load the common metadata files (activity_labels.txt and features.txt) into R dataframes  using `read.table`  
-3. Create a character vector of 561 column names from features.txt for use in labeling x\_test.txt and x\_train.txt  
-
-##### Load Test Dataset  
-1. Load raw test data (y\_test, subject\_test, and x\_test) using `read.table` 
-2. Create an Observation Index (integer vector of 1 to `NROWS`)  
-3. Creates a temp dataframe by combining Observation.ID, y\_test, and subject\_test using `cbind`  
-4. Merges activity_labels with temp using Activity.ID as the key using `merge` - this messes up the Observation.ID Order  
-5. Re-sorts the temp dataframe by Observation Index using `arrange` in the plyr package 
-6. Combines temp dataframe with x_test using `cbind` to generate the test dataset with human-readable activity and feature annotations  
-
-##### Load Train Dataset and Combine Train and Merged
-Repeat steps 1-6 listed above in the **Load Test Dataset** section for the train dataset. Then create a **'combined'** dataframe from the train and test datasets using `rbind`    
-
-##### Extract only Measurement Mean and Standard Deviations
-1. Subset 'combined' using `grepl` to match column names containing either "mean" or "std" - deliberately omitted "meanFreq"" observations as I'm unsure if these are calculated in the same way as "mean"   
-2. Keep all metadata columns by including subject/activity/observation indices, and activity name in the subset  
-
-##### Improve readability of Variable Names
-Use `gsub` to enhance the human readability of column names  
-- remove extra periods "." introduced by read.table  
-- remove trailing periods "."  
-- replace leading "t" with "time"  
-- replace leading "f" with "freq"  
-- replace leading "Acc" with "Accel"  
-
-##### Generating Tidy Dataset Output
-1. Remove Observation Index as it is no longer useful  
-2. Use `ddply` and `colwise` in plyr to calculate mean across all measurement columns by activity and subject
-3. Use `write.table` to generate a space-delimited text file containing the tidy dataset.
-
 ### Code Book
 
 The tidy dataset contains 180 observations of 69 variables. A breakdown of this is as follows:  
 - **Observations** - 30 subjects measured for 6 different activities  
 - **Variables** - 3 metadata variables with 33 measurements of Mean and Standard Deviation respectively.  
+
+####Abbreviations  
+**std** - standard deviation  
+**.X .Y .Z** - Denotes tri-axial signals in the X, Y and Z directions.  
+**Gyro** - gyroscope measurements  
+**Accel** - accelerometer measurements  
+**Mag** - magnitude  
 
 ####Variable Information  
 
@@ -57,13 +23,6 @@ The tidy dataset contains 180 observations of 69 variables. A breakdown of this 
 
 #####Measurement Variables  
 See the following appendix for further details documenting the meaning of each of the following measures. All features have been normalized and are bounded between -1 and 1.
-
-**Abbreviations**   
-**std** - standard deviation  
-**.X .Y .Z** - Denotes tri-axial signals in the X, Y and Z directions.  
-**Gyro** - gyroscope measurements  
-**Accel** - accelerometer measurements  
-**Mag** - magnitude  
 
 4. "timeBodyAccel.mean.X"         
 5. "timeBodyAccel.mean.Y"         
@@ -131,6 +90,45 @@ See the following appendix for further details documenting the meaning of each o
 67. "freqBodyBodyGyroMag.std"      
 68. "freqBodyBodyGyroJerkMag.mean" 
 69. "freqBodyBodyGyroJerkMag.std"
+
+### Study Design
+
+The following is a brief description of `run_analysis.R` which describes the steps I've implemented to generate the tidy dataset specified by the assignment guidelines. 
+
+**Note**: Despite the extensive processing already performed on the UCI HAR Dataset, for the purposes of this assignment, **the downloaded UCI HAR zipfile will be treated as raw data**. 
+
+##### Load Common/Metadata Files  
+1. Unzip the compressed UCI HAR archive using `unzip`  
+2. Load the common metadata files (activity_labels.txt and features.txt) into R dataframes  using `read.table`  
+3. Create a character vector of 561 column names from features.txt for use in labeling x\_test.txt and x\_train.txt  
+
+##### Load Test Dataset  
+1. Load raw test data (y\_test, subject\_test, and x\_test) using `read.table` 
+2. Create an Observation Index (integer vector of 1 to `NROWS`)  
+3. Creates a temp dataframe by combining Observation.ID, y\_test, and subject\_test using `cbind`  
+4. Merges activity_labels with temp using Activity.ID as the key using `merge` - this messes up the Observation.ID Order  
+5. Re-sorts the temp dataframe by Observation Index using `arrange` in the plyr package 
+6. Combines temp dataframe with x_test using `cbind` to generate the test dataset with human-readable activity and feature annotations  
+
+##### Load Train Dataset and Combine Train and Merged
+Repeat steps 1-6 listed above in the **Load Test Dataset** section for the train dataset. Then create a **'combined'** dataframe from the train and test datasets using `rbind`    
+
+##### Extract only Measurement Mean and Standard Deviations
+1. Subset 'combined' using `grepl` to match column names containing either "mean" or "std" - deliberately omitted "meanFreq"" observations as I'm unsure if these are calculated in the same way as "mean"   
+2. Keep all metadata columns by including subject/activity/observation indices, and activity name in the subset  
+
+##### Improve readability of Variable Names
+Use `gsub` to enhance the human readability of column names  
+- remove extra periods "." introduced by read.table  
+- remove trailing periods "."  
+- replace leading "t" with "time"  
+- replace leading "f" with "freq"  
+- replace leading "Acc" with "Accel"  
+
+##### Generating Tidy Dataset Output
+1. Remove Observation Index as it is no longer useful  
+2. Use `ddply` and `colwise` in plyr to calculate mean across all measurement columns by activity and subject
+3. Use `write.table` to generate a space-delimited text file containing the tidy dataset.
 
 ### Appendix: UCI HAR Dataset Information
 

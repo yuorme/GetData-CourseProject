@@ -55,56 +55,13 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="getdata---course-project---code-book" class="section level2">
 <h2>GetData - Course Project - Code Book</h2>
-<div id="study-design" class="section level3">
-<h3>Study Design</h3>
-<p>The following is a brief description of <code>run_analysis.R</code> which describes the steps I’ve implemented to generate the tidy dataset specified by the assignment guidelines.</p>
-<p><strong>Note</strong>: Despite the extensive processing already performed on the UCI HAR Dataset, for the purposes of this assignment, <strong>the downloaded UCI HAR zipfile will be treated as raw data</strong>.</p>
-<div id="load-commonmetadata-files" class="section level5">
-<h5>Load Common/Metadata Files</h5>
-<ol style="list-style-type: decimal">
-<li>Unzip the compressed UCI HAR archive using <code>unzip</code><br /></li>
-<li>Load the common metadata files (activity_labels.txt and features.txt) into R dataframes using <code>read.table</code><br /></li>
-<li>Create a character vector of 561 column names from features.txt for use in labeling x_test.txt and x_train.txt</li>
-</ol>
-</div>
-<div id="load-test-dataset" class="section level5">
-<h5>Load Test Dataset</h5>
-<ol style="list-style-type: decimal">
-<li>Load raw test data (y_test, subject_test, and x_test) using <code>read.table</code></li>
-<li>Create an Observation Index (integer vector of 1 to <code>NROWS</code>)<br /></li>
-<li>Creates a temp dataframe by combining Observation.ID, y_test, and subject_test using <code>cbind</code><br /></li>
-<li>Merges activity_labels with temp using Activity.ID as the key using <code>merge</code> - this messes up the Observation.ID Order<br /></li>
-<li>Re-sorts the temp dataframe by Observation Index using <code>arrange</code> in the plyr package</li>
-<li>Combines temp dataframe with x_test using <code>cbind</code> to generate the test dataset with human-readable activity and feature annotations</li>
-</ol>
-</div>
-<div id="load-train-dataset-and-combine-train-and-merged" class="section level5">
-<h5>Load Train Dataset and Combine Train and Merged</h5>
-<p>Repeat steps 1-6 listed above in the <strong>Load Test Dataset</strong> section for the train dataset. Then create a <strong>‘combined’</strong> dataframe from the train and test datasets using <code>rbind</code></p>
-</div>
-<div id="extract-only-measurement-mean-and-standard-deviations" class="section level5">
-<h5>Extract only Measurement Mean and Standard Deviations</h5>
-<ol style="list-style-type: decimal">
-<li>Subset ‘combined’ using <code>grepl</code> to match column names containing either “mean” or “std” - deliberately omitted “meanFreq”&quot; observations as I’m unsure if these are calculated in the same way as “mean”<br /></li>
-<li>Keep all metadata columns by including subject/activity/observation indices, and activity name in the subset</li>
-</ol>
-</div>
-<div id="improve-readability-of-variable-names" class="section level5">
-<h5>Improve readability of Variable Names</h5>
-<p>Use <code>gsub</code> to enhance the human readability of column names<br />- remove extra periods “.” introduced by read.table<br />- remove trailing periods “.”<br />- replace leading “t” with “time”<br />- replace leading “f” with “freq”<br />- replace leading “Acc” with “Accel”</p>
-</div>
-<div id="generating-tidy-dataset-output" class="section level5">
-<h5>Generating Tidy Dataset Output</h5>
-<ol style="list-style-type: decimal">
-<li>Remove Observation Index as it is no longer useful<br /></li>
-<li>Use <code>ddply</code> and <code>colwise</code> in plyr to calculate mean across all measurement columns by activity and subject</li>
-<li>Use <code>write.table</code> to generate a space-delimited text file containing the tidy dataset.</li>
-</ol>
-</div>
-</div>
 <div id="code-book" class="section level3">
 <h3>Code Book</h3>
 <p>The tidy dataset contains 180 observations of 69 variables. A breakdown of this is as follows:<br />- <strong>Observations</strong> - 30 subjects measured for 6 different activities<br />- <strong>Variables</strong> - 3 metadata variables with 33 measurements of Mean and Standard Deviation respectively.</p>
+<div id="abbreviations" class="section level4">
+<h4>Abbreviations</h4>
+<p><strong>std</strong> - standard deviation<br /><strong>.X .Y .Z</strong> - Denotes tri-axial signals in the X, Y and Z directions.<br /><strong>Gyro</strong> - gyroscope measurements<br /><strong>Accel</strong> - accelerometer measurements<br /><strong>Mag</strong> - magnitude</p>
+</div>
 <div id="variable-information" class="section level4">
 <h4>Variable Information</h4>
 <div id="metadata" class="section level5">
@@ -118,7 +75,6 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="measurement-variables" class="section level5">
 <h5>Measurement Variables</h5>
 <p>See the following appendix for further details documenting the meaning of each of the following measures. All features have been normalized and are bounded between -1 and 1.</p>
-<p><strong>Abbreviations</strong><br /><strong>std</strong> - standard deviation<br /><strong>.X .Y .Z</strong> - Denotes tri-axial signals in the X, Y and Z directions.<br /><strong>Gyro</strong> - gyroscope measurements<br /><strong>Accel</strong> - accelerometer measurements<br /><strong>Mag</strong> - magnitude</p>
 <ol start="4" style="list-style-type: decimal">
 <li>“timeBodyAccel.mean.X”<br /></li>
 <li>“timeBodyAccel.mean.Y”<br /></li>
@@ -188,6 +144,53 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li>“freqBodyBodyGyroJerkMag.std”</li>
 </ol>
 </div>
+</div>
+</div>
+<div id="study-design" class="section level3">
+<h3>Study Design</h3>
+<p>The following is a brief description of <code>run_analysis.R</code> which describes the steps I’ve implemented to generate the tidy dataset specified by the assignment guidelines.</p>
+<p><strong>Note</strong>: Despite the extensive processing already performed on the UCI HAR Dataset, for the purposes of this assignment, <strong>the downloaded UCI HAR zipfile will be treated as raw data</strong>.</p>
+<div id="load-commonmetadata-files" class="section level5">
+<h5>Load Common/Metadata Files</h5>
+<ol style="list-style-type: decimal">
+<li>Unzip the compressed UCI HAR archive using <code>unzip</code><br /></li>
+<li>Load the common metadata files (activity_labels.txt and features.txt) into R dataframes using <code>read.table</code><br /></li>
+<li>Create a character vector of 561 column names from features.txt for use in labeling x_test.txt and x_train.txt</li>
+</ol>
+</div>
+<div id="load-test-dataset" class="section level5">
+<h5>Load Test Dataset</h5>
+<ol style="list-style-type: decimal">
+<li>Load raw test data (y_test, subject_test, and x_test) using <code>read.table</code></li>
+<li>Create an Observation Index (integer vector of 1 to <code>NROWS</code>)<br /></li>
+<li>Creates a temp dataframe by combining Observation.ID, y_test, and subject_test using <code>cbind</code><br /></li>
+<li>Merges activity_labels with temp using Activity.ID as the key using <code>merge</code> - this messes up the Observation.ID Order<br /></li>
+<li>Re-sorts the temp dataframe by Observation Index using <code>arrange</code> in the plyr package</li>
+<li>Combines temp dataframe with x_test using <code>cbind</code> to generate the test dataset with human-readable activity and feature annotations</li>
+</ol>
+</div>
+<div id="load-train-dataset-and-combine-train-and-merged" class="section level5">
+<h5>Load Train Dataset and Combine Train and Merged</h5>
+<p>Repeat steps 1-6 listed above in the <strong>Load Test Dataset</strong> section for the train dataset. Then create a <strong>‘combined’</strong> dataframe from the train and test datasets using <code>rbind</code></p>
+</div>
+<div id="extract-only-measurement-mean-and-standard-deviations" class="section level5">
+<h5>Extract only Measurement Mean and Standard Deviations</h5>
+<ol style="list-style-type: decimal">
+<li>Subset ‘combined’ using <code>grepl</code> to match column names containing either “mean” or “std” - deliberately omitted “meanFreq”&quot; observations as I’m unsure if these are calculated in the same way as “mean”<br /></li>
+<li>Keep all metadata columns by including subject/activity/observation indices, and activity name in the subset</li>
+</ol>
+</div>
+<div id="improve-readability-of-variable-names" class="section level5">
+<h5>Improve readability of Variable Names</h5>
+<p>Use <code>gsub</code> to enhance the human readability of column names<br />- remove extra periods “.” introduced by read.table<br />- remove trailing periods “.”<br />- replace leading “t” with “time”<br />- replace leading “f” with “freq”<br />- replace leading “Acc” with “Accel”</p>
+</div>
+<div id="generating-tidy-dataset-output" class="section level5">
+<h5>Generating Tidy Dataset Output</h5>
+<ol style="list-style-type: decimal">
+<li>Remove Observation Index as it is no longer useful<br /></li>
+<li>Use <code>ddply</code> and <code>colwise</code> in plyr to calculate mean across all measurement columns by activity and subject</li>
+<li>Use <code>write.table</code> to generate a space-delimited text file containing the tidy dataset.</li>
+</ol>
 </div>
 </div>
 <div id="appendix-uci-har-dataset-information" class="section level3">
